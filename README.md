@@ -1,21 +1,20 @@
-# Jestpack [![Build Status](https://travis-ci.org/60frames/jestpack.svg?branch=master)](https://travis-ci.org/60frames/jestpack) [![npm version](https://badge.fury.io/js/jestpack.svg)](https://badge.fury.io/js/jestpack)
-
+# Reunited 
 Unfortunately [Jest doesn't play nicely with Webpack](http://stackoverflow.com/questions/31547587/testing-webpack-built-react-components-with-jest), especially when using some of Webpack's more useful features such as [loaders](http://webpack.github.io/docs/loaders.html) or [code splitting](http://webpack.github.io/docs/code-splitting.html).
 
-Jestpack attempts to solve this problem by ~~extending~~ replacing Jest's default module loader to support Webpack's internal module system.
+Reunited attempts to solve this problem by ~~extending~~ replacing Jest's default module loader to support Webpack's internal module system.
 
 ## Installation
 
-`npm install jestpack --save-dev`
+`npm install @module-federation/reunited --save-dev`
 
-> NOTE: Jestpack >=0.2.0 depends on Node >=5.x.x.
+> NOTE: Reunited >=0.2.0 depends on Node >=5.x.x.
 
-> NOTE: Jestpack declares both `jest-cli` and `webpack` as peer dependencies meaning you must declare them both as either `devDependencies` or `dependencies` in your projects `package.json`.
+> NOTE: Reunited declares both `jest-cli` and `webpack` as peer dependencies meaning you must declare them both as either `devDependencies` or `dependencies` in your projects `package.json`.
 
-> NOTE: Jestpack doesn't currently support Jest 0.8.x https://github.com/60frames/jestpack/issues/12
+> NOTE: Reunited doesn't currently support Jest 0.8.x https://github.com/60frames/reunited/issues/12
 
 ## Setup
-Jestpack works by supplying pre-built test files to Jest so the first thing you'll want to do is tell Jest where it can expect to find your soon-to-be-bundled test files:
+Reunited works by supplying pre-built test files to Jest so the first thing you'll want to do is tell Jest where it can expect to find your soon-to-be-bundled test files:
 
 ```js
 // package.json
@@ -27,7 +26,7 @@ Jestpack works by supplying pre-built test files to Jest so the first thing you'
 }
 ```
 
-Then you'll need to get Jest to use the Jestpack module loader:
+Then you'll need to get Jest to use the Reunited module loader:
 
 ```js
 // package.json
@@ -35,7 +34,7 @@ Then you'll need to get Jest to use the Jestpack module loader:
     ...
     "jest": {
         ...
-        "moduleLoader": "<rootDir>/node_modules/jestpack/ModuleLoader",
+        "moduleLoader": "<rootDir>/node_modules/reunited/ModuleLoader",
     }
 }
 ```
@@ -80,22 +79,22 @@ module.exports = {
     preLoaders: [
         {
             test: /\.js$/,
-            loader: 'jestpack/ManualMockLoader'
+            loader: 'reunited/ManualMockLoader'
         }
     ]
 }
 ```
 
-Finally, you need to apply the Jestpack plugin which transforms Jest's CommonJs API calls into something Webpack can understand, i.e. `jest.dontMock('../foo')` becomes `jest.dontMock(1)`:
+Finally, you need to apply the Reunited plugin which transforms Jest's CommonJs API calls into something Webpack can understand, i.e. `jest.dontMock('../foo')` becomes `jest.dontMock(1)`:
 
 ```js
 // webpack.config.js
-var JestpackPlugin = require('jestpack/Plugin');
+var ReunitedPlugin = require('reunited/Plugin');
 
 module.exports = {
     ...
     plugins: [
-        new JestpackPlugin()
+        new ReunitedPlugin()
     ]
 }
 ```

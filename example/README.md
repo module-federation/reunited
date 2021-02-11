@@ -1,3 +1,3 @@
-# Jestpack Example
+# Reunited Example
 
 `npm install && npm start`

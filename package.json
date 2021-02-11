@@ -1,5 +1,5 @@
 {
-  "name": "jestpack",
+  "name": "reunited",
   "version": "0.2.0",
   "description": "Jest Webpack integration",
   "scripts": {
@@ -8,13 +8,13 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/60frames/jestpack.git"
+    "url": "https://github.com/60frames/reunited.git"
   },
   "engines": {
     "node": ">=5"
   },
   "keywords": [
-    "jestpack",
+    "reunited",
     "jest",
     "webpack",
     "test",
@@ -38,7 +38,8 @@
   },
   "devDependencies": {
     "60frames-coding-standards": "^1.0.7",
-    "eslint": "^0.24"
+    "eslint": "^0.24",
+    "webpack": "5.21.2"
   },
-  "homepage": "https://github.com/60frames/jestpack#readme"
+  "homepage": "https://github.com/60frames/reunited#readme"
 }
