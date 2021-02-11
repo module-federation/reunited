@@ -33,14 +33,14 @@ function manualMockLoader(source) {
     const rawRequest = this._module.rawRequest;
     const rawRequestParts = rawRequest.split(LOADER_DELIMITER);
     const loaderLessRawRequest = rawRequestParts[rawRequestParts.length - 1];
-    const modulesDirectories = this.options.resolve.modulesDirectories;
+    const modulesDirectories = this.options.resolve.modules;
 
     let mockResourcePath;
 
     if (this.cacheable) {
         this.cacheable();
     }
-
+    console.log({loaderLessRawRequest,resourcePath,modulesDirectories})
     // If the module is considered a package entry file then mocks are expected to be in
     // cwd/__mocks__/**.
     // NOTE: not sure if this is the exact same behaviour as `node-haste`

@@ -38,7 +38,8 @@
   },
   "devDependencies": {
     "60frames-coding-standards": "^1.0.7",
-    "eslint": "^0.24"
+    "eslint": "^0.24",
+    "webpack": "5.21.2"
   },
   "homepage": "https://github.com/60frames/jestpack#readme"
 }
