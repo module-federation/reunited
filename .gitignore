@@ -2,3 +2,5 @@
 node_modules
 npm-debug.log
 .idea
+/test/bundle.test.js
+/federated/dist/
