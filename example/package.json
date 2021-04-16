@@ -36,7 +36,7 @@
     "reunited": "file:../",
     "stats-webpack-plugin": "^0.2.1",
     "style-loader": "^0.12.3",
-    "webpack": "5.21.2",
+    "webpack": "5.33.2",
     "webpack-cli": "^4.5.0"
   },
   "dependencies": {
