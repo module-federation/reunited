@@ -1,19 +1,20 @@
 const path = require('path');
 const glob = require('glob');
 const thisFile = path.basename(__filename);
+const nodeExternals = require('webpack-node-externals')
 const {ModuleFederationPlugin} = require("webpack").container
+const ReactLazySsrPlugin = require('react-lazy-ssr/webpack');
+const reunited = require('../index')
 const testFiles = glob.sync("!(node_modules)/**/*.test.js").filter(function (element) {
-  console.log(element, element != "test/bundle.test.js")
   return element != "test/bundle.test.js" && !element.includes(thisFile);
 }).map(function (element) {
   return "./" + element;
 });
-console.log(testFiles);
 module.exports = {
-  entry: testFiles,
+  entry: {"bundle.test":testFiles},
   output: {
     path: path.resolve(__dirname, "."),
-    filename: "bundle.test.js"
+    filename: "[name].js"
   },
   target: "node",
   resolve: {
@@ -21,42 +22,33 @@ module.exports = {
       path: false
     }
   },
+  externals: [nodeExternals({
+    allowlist: [/^webpack\/container\/reference\//,/react/]
+  })],
   mode: "none",
+  module: {
+    rules: [
+      {
+        test: /\.js$/,
+        exclude: /node_modules/,
+        loader: 'babel-loader'
+      },
+    ]
+  },
   plugins: [
     new ModuleFederationPlugin({
       name: "test_bundle",
-      library: {type: "commonjs", name: "test_bundle"},
+      library: {type: "commonjs-module", name: "test_bundle"},
+      filename: "remoteEntry.js",
+      exposes: {
+        "./render":"./test/suspenseRender.js"
+      },
       remotes: {
         // Tobias, why do i need to do this in order to get the remote to properly resolve
-        "federated": `promise new Promise(res => {
-          let remote
-          const remotePath = "${path.resolve(__dirname,'../federated/dist/remoteEntry.js')}"
-          try {
-          remote = require(remotePath)['federated']
-          } catch (e) {
-          delete require.cache[remotePath]
-          remote = require(remotePath)['federated']
-          }
-          
-          if(!remote.get) {
-            return new Promise(function(delayResolve){
-              var interval = setInterval(function(){
-                 delete require.cache[remotePath]
-                 remote = require(remotePath);
-                if(require(remotePath)) {
-                  console.log(remote);
-                  delayResolve(require(remotePath)['federated']);
-                  clearInterval(interval);
-                }
-              }, 50);
-
-            })
-          }
-         
-          const proxy = {get:(request)=> remote.get(request),init:(arg)=>{try {return remote.init(arg)} catch(e){console.log('remote container already initialized')}}}
-          res(proxy)
-          })`
+        "federated": reunited(path.resolve(__dirname,'../federated-test/dist-test/remoteEntry.js'),"federated"),
+        "fed_consumer": reunited(path.resolve(__dirname,'../federated-cross-test/dist-test/remoteEntry.js'),'fed_consumer')
       }
-    })
+    }),
+    new ReactLazySsrPlugin()
   ]
 };

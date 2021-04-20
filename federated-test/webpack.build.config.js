@@ -1,12 +1,16 @@
 const path = require('path');
-const glob = require('glob');
-const {ModuleFederationPlugin} = require("webpack").container
+const webpack = require("webpack")
+const {ModuleFederationPlugin} = webpack.container
+const deps = require('../package.json')
+
 module.exports = {
   entry: require.resolve('./index.js'),
   output: {
     path: path.resolve(__dirname, "./dist"),
+    publicPath: "auto"
   },
-  target: "node",
+  cache:false,
+  target: "web",
   resolve: {
     fallback: {
       path: false
@@ -26,10 +30,16 @@ module.exports = {
     new ModuleFederationPlugin({
       name: 'federated',
       filename:"remoteEntry.js",
-      library: {type: "commonjs", name: "federated"},
       exposes: {
-        "./Button": "./federated/Button.js"
+        "./Button": "./federated-test/Button.js"
+      },
+      shared: {
+        react: deps.devDependencies.react,
+        "react-dom": deps.devDependencies["react-dom"]
       }
+    }),
+    new webpack.DefinePlugin({
+      'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || "development"),
     })
   ]
 };
