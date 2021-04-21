@@ -19,6 +19,6 @@
     "@babel/preset-react": "^7.13.13",
     "babel-loader": "^8.2.2",
     "webpack": "^5.33.2",
-    "webpack-node-externals": "^2.5.2"
+    "webpack-node-externals": "^3.0.0"
   }
 }
