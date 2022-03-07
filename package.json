@@ -31,7 +31,7 @@
     "react-async-ssr": "^0.7.2",
     "react-lazy-ssr": "^0.2.4",
     "react-ssr-prepass": "^1.4.0",
-    "serve": "^12.0.0",
+    "serve": "^13.0.0",
     "webpack": "^5.33.2",
     "webpack-node-externals": "^2.5.2",
     "webpack-virtual-modules": "^0.4.2",
