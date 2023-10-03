@@ -34,7 +34,7 @@
     "serve": "^12.0.0",
     "webpack": "^5.33.2",
     "webpack-node-externals": "^2.5.2",
-    "webpack-virtual-modules": "^0.4.2",
+    "webpack-virtual-modules": "^0.6.0",
     "workerpool": "^6.1.4"
   }
 }
